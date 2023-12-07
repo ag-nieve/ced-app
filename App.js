@@ -1,20 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
+import Input from './components/Input';
+import { useState } from 'react';
+import DashboardScreen from './screens/Dashboard';
+import LoginScreen from './screens/LoginScreen';
 
 export default function App() {
+
+  const [isLogin, setIsLogin] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View className={'flex flex-1'}>
+    <StatusBar style="auto" />
+    {isLogin ? <DashboardScreen /> : <LoginScreen setIsLogin={setIsLogin} />}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
