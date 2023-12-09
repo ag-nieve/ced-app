@@ -5,7 +5,7 @@ import {
     LineChart,
 } from "react-native-chart-kit";
 
-export default function ReportsModal(props){
+export default function LogsModal(props){
 
     const { isVisible, setIsVisible } = props;
 

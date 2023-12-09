@@ -1,7 +1,7 @@
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import ReportsModal from "./ReportsModal";
+import LogsModal from "./LogsModal";
 import { useEffect, useState } from "react";
 import Background from "../assets/background-light.png";
 
