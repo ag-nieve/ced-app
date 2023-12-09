@@ -1,11 +1,14 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import {Image, Text, TouchableOpacity, View} from "react-native";
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import ReportsModal from "./ReportsModal";
 import { useEffect, useState } from "react";
+import Background from "../assets/background-light.png";
 
 
-export default function DashboardScreen(){
+export default function DashboardScreen(props){
+
+    const { navigation } = props;
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [temperatureCurrentValue, setTemperatureCurrentValue] = useState(22);
@@ -19,7 +22,7 @@ export default function DashboardScreen(){
             (async ()=> {
                 const base_url = "https://ced-app-d69aa-default-rtdb.asia-southeast1.firebasedatabase.app/";
                 const response = await fetch(`${base_url}plant_sensors.json`);
-                
+
                 const result = await response.json();
                 setTemperatureCurrentValue(result[Object.keys(result)[Object.keys(result).length - 1]].temperature);
                 setHumidityCurrentValue(result[Object.keys(result)[Object.keys(result).length - 1]].humidity);
@@ -29,12 +32,12 @@ export default function DashboardScreen(){
             console.log("eyy!");
         }, 5000);
 
-        
+
     }, []);
 
     return (
         <View className={'flex flex-1'}>
-        <ReportsModal isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
+            <Image source={Background} className={'-z-10 absolute w-full h-full'} />
             <View className={'h-1/5 justify-center py-4 px-4 rounded-b-[64px] bg-[#80aa92]'}>
                 <Text className={'text-4xl font-bold text-white text-center'}>Dashboard</Text>
             </View>
@@ -71,10 +74,10 @@ export default function DashboardScreen(){
                 <View>
                     <FontAwesome5 name="water" size={70} color="#fff" />
                 </View>
-            </LinearGradient> 
+            </LinearGradient>
 
             <TouchableOpacity onPress={()=> {
-                setIsModalVisible(true);
+                navigation.navigate('Reports');
             }} className={'bg-[#80aa92] mt-5 py-4 rounded-full'}>
                 <Text className={'text-white text-center text-2xl'}>Reports</Text>
             </TouchableOpacity>
@@ -82,6 +85,6 @@ export default function DashboardScreen(){
             </View>
 
         </View>
-        
+
     )
 }
