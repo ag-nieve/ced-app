@@ -4,7 +4,10 @@ import {LineChart} from "react-native-chart-kit";
 export default function LineChartComponent(props){
 
     const { data, symbol } = props;
-    console.log(data.datasets);
+
+    if(!data){
+        return <Text>Loading....</Text>
+    }
 
     return <LineChart
         data={data}

@@ -9,12 +9,29 @@ export default function Reports(props){
     const { navigation } = props;
     const [temperatureChartData, setTemperatureChartData] = useState({
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        datasets: [
+            {
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }
+        ]
     });
 
     const [humidityChartData, setHumidityChartData] = useState({
         labels: ['July', 'August', 'September', 'October', 'November', 'December'],
-        values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        datasets: [
+            {
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }
+        ]
+    });
+
+    const [waterLevelChartData, setWaterLevelChartData] = useState({
+        labels: ['July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [
+            {
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }
+        ]
     });
 
     useEffect(()=> {
@@ -35,10 +52,12 @@ export default function Reports(props){
                 const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 const humidityValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 const tempValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                const waterLevelValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
                 //   mao ni ang pag colecta sa overall ph og temperature
                 let avgHumidity = 0;
                 let avgTemperature = 0;
+                let avgWaterLevel = 0;
 
                 //   diri gi isa.x og loop ang item sa resultkeys (katung ulo) para makuha ang sulod nga mga data katung naay dateTime, humidity og temperature
                 for(let i = 0; i < resultKeys.length; i++){
@@ -49,18 +68,23 @@ export default function Reports(props){
 
                     humidityValues[thisDate.getMonth()] += result[resultKeys[i]].humidity;
                     tempValues[thisDate.getMonth()] += result[resultKeys[i]].temperature;
+                    waterLevelValues[thisDate.getMonth()] += result[resultKeys[i]].waterlevel;
 
                     // kung nahuman na og loop, e total niya ang average humidity og average temperature...
                     if(i === resultKeys.length - 1){
                         avgHumidity = humidityValues[thisDate.getMonth()] / resultKeys.length;
                         avgTemperature = tempValues[thisDate.getMonth()] / resultKeys.length;
+                        avgWaterLevel = waterLevelValues[thisDate.getMonth()] / resultKeys.length;
                         humidityValues[thisDate.getMonth()] = avgHumidity
                         tempValues[thisDate.getMonth()] = avgTemperature
+                        waterLevelValues[thisDate.getMonth()] = avgWaterLevel
                     }
 
                 }
 
                 //   diri gawas na sa loop gi kuha sa global variable tanan data para e pasa sa chart katung <LineChart /> nga component...
+
+                console.log("tempvalues: ", tempValues);
                 setTemperatureChartData({
                     labels:labels,
                     datasets: [
@@ -70,11 +94,22 @@ export default function Reports(props){
                     ]
                 })
 
+                console.log("humidity: ", humidityValues);
                 setHumidityChartData({
                     labels: labels,
                     datasets: [
                         {
                             data: humidityValues
+                        }
+                    ]
+                })
+
+                console.log("water Level: ", waterLevelValues);
+                setWaterLevelChartData({
+                    labels: labels,
+                    datasets: [
+                        {
+                            data: waterLevelValues
                         }
                     ]
                 })
@@ -100,6 +135,8 @@ export default function Reports(props){
             <LineChartComponent data={temperatureChartData} symbol={'°C'} />
             <Text className={'mt-3 text-white'}>Humidity Readings</Text>
             <LineChartComponent data={humidityChartData} symbol={'%'} />
+            <Text className={'mt-3 text-white'}>Water Level Readings</Text>
+            <LineChartComponent data={waterLevelChartData} symbol={'%'} />
             <TouchableOpacity onPress={()=> {
             //     CODES HERE...
             }} className={'bg-[#80aa92] mt-3 py-4 rounded-full w-full'}>
