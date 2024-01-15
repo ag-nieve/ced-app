@@ -2,26 +2,19 @@ import {Dimensions} from "react-native";
 import {LineChart} from "react-native-chart-kit";
 
 export default function LineChartComponent(props){
+
+    const { data, symbol } = props;
+
+    if(!data){
+        return <Text>Loading....</Text>
+    }
+
     return <LineChart
-        data={{
-            labels: ["January", "February", "March", "April", "May", "June"],
-            datasets: [
-                {
-                    data: [
-                        Math.random() * 30,
-                        Math.random() * 30,
-                        Math.random() * 30,
-                        Math.random() * 30,
-                        Math.random() * 30,
-                        Math.random() * 30
-                    ]
-                }
-            ]
-        }}
+        data={data}
         width={Dimensions.get("window").width - 15} // from react-native
         height={220}
         // yAxisLabel="°C"
-        yAxisSuffix="°C"
+        yAxisSuffix={symbol}
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
             backgroundColor: "#6eb480",
