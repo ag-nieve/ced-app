@@ -16,14 +16,58 @@ export default function DashboardScreen(props){
     const [waterLevelCurrentValue, setWaterLevelCurrentValue] = useState(22);
 
 
+    // Object Oriented...
+    const person1 = {
+        
+    }
+
+    const person2 = {
+      
+    }
+
+    const arrStr = ["str1", "str2"];
+    const arrNum = [1, 2, 3];
+
+    
+    const students = [
+        {
+            name: "AG",
+            age: 25,
+            gender: "male",
+            walk: function(){
+                console.log("walking...");
+            }
+        },
+        {
+            name: "Cedie",
+            age: 25,
+            gender: "male"
+        }
+    ];
+
+    students[1].name;
+
+
+
     useEffect(()=> {
+
+        // interval repeats the function/s inside for a certain amount of time...
+
         const interval = setInterval(function() {
 
+
+            // async executes a function/s without waiting for the next line or funciton below.
             (async ()=> {
+                // static or consts...
+
                 const base_url = "https://ced-app-d69aa-default-rtdb.asia-southeast1.firebasedatabase.app/";
+
+                // using await will wait for the fetch to be over or executed....
                 const response = await fetch(`${base_url}plant_sensors.json`);
 
+                // pag convert from text to json and pass it to a variable....
                 const result = await response.json();
+
                 setTemperatureCurrentValue(result[Object.keys(result)[Object.keys(result).length - 1]].temperature);
                 setHumidityCurrentValue(result[Object.keys(result)[Object.keys(result).length - 1]].humidity);
                 setWaterLevelCurrentValue(result[Object.keys(result)[Object.keys(result).length - 1]].waterlevel);
