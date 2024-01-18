@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import LogsModal from "./LogsModal";
 import { useEffect, useState } from "react";
 import Background from "../assets/background-light.png";
+import WarningPopup from "./WarningPopup";
 
 
 export default function DashboardScreen(props){
@@ -60,27 +61,31 @@ export default function DashboardScreen(props){
             (async ()=> {
                 // static or consts...
 
-                const base_url = "https://ced-app-d69aa-default-rtdb.asia-southeast1.firebasedatabase.app/";
+                const base_url = "https://mushroom-1d82e-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
                 // using await will wait for the fetch to be over or executed....
                 const response = await fetch(`${base_url}plant_sensors.json`);
 
                 // pag convert from text to json and pass it to a variable....
                 const result = await response.json();
+                
+                if(result[Object.keys(result)[Object.keys(result).length - 1]].humidity < 80) {
+                    setIsModalVisible(true);
+                }
 
                 setTemperatureCurrentValue(result[Object.keys(result)[Object.keys(result).length - 1]].temperature);
                 setHumidityCurrentValue(result[Object.keys(result)[Object.keys(result).length - 1]].humidity);
                 setWaterLevelCurrentValue(result[Object.keys(result)[Object.keys(result).length - 1]].waterlevel);
             })();
 
-            console.log("eyy!");
-        }, 5000);
+        }, 10000);
 
 
     }, []);
 
     return (
         <View className={'flex flex-1'}>
+        <WarningPopup isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
             <Image source={Background} className={'-z-10 absolute w-full h-full'} />
             <View className={'h-1/5 justify-center py-4 px-4 rounded-b-[64px] bg-[#80aa92]'}>
                 <Text className={'text-4xl font-bold text-white text-center'}>Dashboard</Text>
